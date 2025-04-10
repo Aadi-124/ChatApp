@@ -40,8 +40,17 @@ const ChatPage = () => {
           const sock = new SockJS(`${baseURL}/chat`);
           const client = Stomp.over(sock);
           client.connect({},()=>{
-            toast.success("Connection Succesfull!");
             console.log("Connection Successfull!");
+            
+        client.subscribe(`/topic/room/${roomId}`, (message) => {
+          console.log(message);
+
+          const newMessage = JSON.parse(message.body);
+
+          setMessages((prev) => [...prev, newMessage]);
+
+        });
+
           })
         }
         connectWebSocket();

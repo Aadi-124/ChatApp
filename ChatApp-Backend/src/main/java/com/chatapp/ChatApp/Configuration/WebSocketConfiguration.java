@@ -14,13 +14,13 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     // Here We need to implement two methods
     public void configureMessageBroker(MessageBrokerRegistry registry){
         registry.enableSimpleBroker("/topics"); // at this route the messages are broadcasted
-        registry.setApplicationDestinationPrefixes("/app"); // at this routes messages are sent.
+        registry.setApplicationDestinationPrefixes("/app"); // at these routes messages are sent.
     }
 
 
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/chat")
-                .setAllowedOriginPatterns("localhost:5173")
+                .setAllowedOriginPatterns("http://localhost:5173")
                 .withSockJS();
     }
 
