@@ -5,8 +5,6 @@ import { ChatAppContext } from './Service/ChatAppContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <ChatAppContext>
-  <StrictMode>
     <App />
-  </StrictMode>
   </ChatAppContext>,
 )
