@@ -39,8 +39,9 @@ const ChatPage = () => {
         const connectWebSocket = ()=>{
           const sock = new SockJS(`${baseURL}/chat`);
           const client = Stomp.over(sock);
+
           client.connect({},()=>{
-            console.log("Connection Successfull!");
+            toast.success("Connected Successfully!");
             
         client.subscribe(`/topic/room/${roomId}`, (message) => {
           console.log(message);
@@ -53,10 +54,12 @@ const ChatPage = () => {
 
           })
         }
-        connectWebSocket();
-    })
+        
+    if (connected) {
+      connectWebSocket();
+    }
 
-
+    },[])
 
 
 
@@ -70,15 +73,20 @@ const ChatPage = () => {
   const handleSend = () => {
     if (newMessage.trim() === "") return;
 
-    const now = new Date();
-    const message = {
-      sender: "You",
-      text: newMessage,
-      time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
+    if(connected && newMessage.trim () !== ""){
+        const now = new Date();
+        const message = {
+          sender: "You",
+          content: newMessage,
+          time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          roomId:roomId
+        };
 
-    setMessages([...messages, message]);
-    setNewMessage("");
+        stompClient.send(`/app/sendMessage/${roomId}`,{},JSON.stringify(message));
+          
+        // setMessages([...messages, message]);
+        setNewMessage("");
+    }
   };
 
   return (
