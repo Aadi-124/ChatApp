@@ -7,6 +7,7 @@ import com.chatapp.ChatApp.Repository.RoomRepository;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("http://localhost:5173")
 public class ChatController {
 
-
+    @Autowired
     public RoomRepository repository;
 
     @MessageMapping("/sendMessage/{roomId}")
@@ -31,6 +32,7 @@ public class ChatController {
         if(repository.findByRoomId(roomId).isPresent()){
             Room room = repository.findByRoomId(roomId).get();
             Message newMessage = new Message();
+            newMessage.setId(null);
             newMessage.setContent(message.getContent());
             newMessage.setRoomId(message.getRoomId());
             newMessage.setSender(message.getSender());

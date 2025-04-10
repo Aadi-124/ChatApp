@@ -17,6 +17,8 @@ const ChatPage = () => {
     const location = useLocation();
     const baseURL = "http://localhost:8080";
     const {username,connected, setConnected, setUsername, roomId, setRoomId} = useChatContext();
+    
+  const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         if (location.state?.showToast && location.state.toastMessage) {
@@ -41,6 +43,7 @@ const ChatPage = () => {
           const client = Stomp.over(sock);
 
           client.connect({},()=>{
+            setStompClient(client);
             toast.success("Connected Successfully!");
             
         client.subscribe(`/topic/room/${roomId}`, (message) => {
@@ -64,21 +67,16 @@ const ChatPage = () => {
 
 
   const { roomid } = useParams();
-  const [messages, setMessages] = useState([
-    { sender: "Alice", text: "Hey there!", time: "10:00 AM" },
-    { sender: "You", text: "Hey! What's up?", time: "10:01 AM" },
-  ]);
   const [newMessage, setNewMessage] = useState("");
 
   const handleSend = () => {
     if (newMessage.trim() === "") return;
 
-    if(connected && newMessage.trim () !== ""){
-        const now = new Date();
+    if(stompClient && connected && newMessage.trim () !== ""){
+      console.log(newMessage);
         const message = {
           sender: "You",
           content: newMessage,
-          time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           roomId:roomId
         };
 
@@ -101,7 +99,7 @@ const ChatPage = () => {
             key={index}
             className={`message-bubble ${msg.sender === "You" ? "sent" : "received"}`}
           >
-            <div className="message-content">{msg.text}</div>
+            <div className="message-content">{msg.content}</div>
             <div className="message-time">{msg.time}</div>
           </div>
         ))}
