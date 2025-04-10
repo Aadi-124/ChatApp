@@ -13,7 +13,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     // Here We need to implement two methods
     public void configureMessageBroker(MessageBrokerRegistry registry){
-        registry.enableSimpleBroker("/topics"); // at this route the messages are broadcasted
+        registry.enableSimpleBroker("/topic"); // at this route the messages are broadcasted
         registry.setApplicationDestinationPrefixes("/app"); // at these routes messages are sent.
     }
 

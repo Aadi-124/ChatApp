@@ -18,7 +18,7 @@ import java.util.List;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String roomId;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

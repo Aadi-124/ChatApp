@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import useChatContext from "../Service/ChatAppContext";
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import { getMessages } from "../Service/ApiService";
 
 const ChatPage = () => {
 
@@ -16,7 +17,7 @@ const ChatPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const baseURL = "http://localhost:8080";
-    const {username,connected, setConnected, setUsername, roomId, setRoomId} = useChatContext();
+    const { roomId, currentUser, connected, setRoomId,setCurrentUser,setConnected} = useChatContext();
     
   const [messages, setMessages] = useState([]);
 
@@ -28,13 +29,28 @@ const ChatPage = () => {
     }, [location]);
 
 
+    useEffect(() => {
+      async function loadMessages() {
+        try {
+          const messages = await getMessages(roomId);
+
+          setMessages(messages);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      if (connected) {
+        loadMessages();
+      }
+    }, []);
+
     useEffect(()=>{
       console.log("connected = ",!connected);
       if(!connected){
         console.log("I Executed!");
         console.log(navigate("/"));
       }
-    },[connected,roomId,username])
+    },[connected,roomId,currentUser])
 
 
     useEffect(()=>{
@@ -48,8 +64,9 @@ const ChatPage = () => {
             
         client.subscribe(`/topic/room/${roomId}`, (message) => {
           console.log(message);
-
+          
           const newMessage = JSON.parse(message.body);
+          console.log("Received:", newMessage); // 👀 log sender
 
           setMessages((prev) => [...prev, newMessage]);
 
@@ -75,7 +92,7 @@ const ChatPage = () => {
     if(stompClient && connected && newMessage.trim () !== ""){
       console.log(newMessage);
         const message = {
-          sender: "You",
+          sender: currentUser,
           content: newMessage,
           roomId:roomId
         };
@@ -91,13 +108,15 @@ const ChatPage = () => {
     <div className="chat-container">
       <div className="chat-header">
         <h3>Room: {roomId}</h3>
+        <br />
+        <h3>Username: {currentUser}</h3>
       </div>
 
       <div className="chat-messages">
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message-bubble ${msg.sender === "You" ? "sent" : "received"}`}
+            className={`message-bubble ${msg.sender === currentUser ? "sent" : "received"}`}
           >
             <div className="message-content">{msg.content}</div>
             <div className="message-time">{msg.time}</div>
