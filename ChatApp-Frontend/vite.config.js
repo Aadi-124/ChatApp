@@ -4,4 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    global: 'window', // Ensure `global` is defined as `window`
+  },
 })
