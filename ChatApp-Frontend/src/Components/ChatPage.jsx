@@ -8,14 +8,15 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useChatContext from "../Service/ChatAppContext";
 import SockJS from 'sockjs-client';
-
+import { Stomp } from '@stomp/stompjs';
 
 const ChatPage = () => {
 
+    const [stompClient, setStompClient] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
     const baseURL = "http://localhost:8080";
-    const {username, setUsername, roomId, setRoomId} = useChatContext();
+    const {username,connected, setConnected, setUsername, roomId, setRoomId} = useChatContext();
 
     useEffect(() => {
         if (location.state?.showToast && location.state.toastMessage) {
@@ -25,15 +26,26 @@ const ChatPage = () => {
     }, [location]);
 
 
+    useEffect(()=>{
+      console.log("connected = ",!connected);
+      if(!connected){
+        console.log("I Executed!");
+        console.log(navigate("/"));
+      }
+    },[connected,roomId,username])
+
 
     useEffect(()=>{
-      const connectWebSocket = () =>{
-
-        const sock = new SockJS(`${baseURL}/chat`);
-
-      }
-    });
-
+        const connectWebSocket = ()=>{
+          const sock = new SockJS(`${baseURL}/chat`);
+          const client = Stomp.over(sock);
+          client.connect({},()=>{
+            toast.success("Connection Succesfull!");
+            console.log("Connection Successfull!");
+          })
+        }
+        connectWebSocket();
+    })
 
 
 
