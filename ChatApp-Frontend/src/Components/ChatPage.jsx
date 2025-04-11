@@ -32,9 +32,9 @@ const ChatPage = () => {
     useEffect(() => {
       async function loadMessages() {
         try {
-          const messages = await getMessages(roomId);
-
-          setMessages(messages);
+          getMessages(roomId).then((response)=>{
+            setMessages(response.data.messages);
+          });
         } catch (error) {
           console.log(error);
         }
@@ -45,7 +45,6 @@ const ChatPage = () => {
     }, []);
 
     useEffect(()=>{
-      console.log("connected = ",!connected);
       if(!connected){
         console.log("I Executed!");
         console.log(navigate("/"));
@@ -88,18 +87,18 @@ const ChatPage = () => {
 
   const handleSend = () => {
     if (newMessage.trim() === "") return;
-
+    
     if(stompClient && connected && newMessage.trim () !== ""){
-      console.log(newMessage);
+      console.log("Sending...");
         const message = {
           sender: currentUser,
           content: newMessage,
           roomId:roomId
         };
 
-        stompClient.send(`/app/sendMessage/${roomId}`,{},JSON.stringify(message));
+        const M = stompClient.send(`/app/sendMessage/${roomId}`,{},JSON.stringify(message));
           
-        // setMessages([...messages, message]);
+        // setMessages([...prev, M]);
         setNewMessage("");
     }
   };
@@ -111,7 +110,7 @@ const ChatPage = () => {
         <br />
         <h3>Username: {currentUser}</h3>
       </div>
-
+      
       <div className="chat-messages">
         {messages.map((msg, index) => (
           <div
