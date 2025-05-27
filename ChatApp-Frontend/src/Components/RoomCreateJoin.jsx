@@ -18,10 +18,7 @@ const RoomCreateJoin = () => {
 
     const handleJoin = () => {
         setLoadingJoin(true);
-        console.log("Joined!");
         joinRoom(roomid).then((response)=>{
-            console.log(response.data);
-            console.log("Room Joined Successfully!");
             toast.success("Room Joined Successfully!");
             setRoomId(roomid);
             setCurrentUser(username);
@@ -33,7 +30,7 @@ const RoomCreateJoin = () => {
             });
 
         }) .catch((error) => {
-            console.log(error.response.data);
+            
             toast.error("Room Not Exisits!");
         })
         .finally(() => {
@@ -48,7 +45,6 @@ const RoomCreateJoin = () => {
     
         createRoom(room)
             .then((response) => {
-                console.log(response.data);
 
                 setCurrentUser(username);
                 setRoomId(roomid);
@@ -63,7 +59,6 @@ const RoomCreateJoin = () => {
 
             })
             .catch((error) => {
-                console.log(error.response?.data || "Error creating room");
                 toast.error("Room Already Exists!");
             })
             .finally(() => {
