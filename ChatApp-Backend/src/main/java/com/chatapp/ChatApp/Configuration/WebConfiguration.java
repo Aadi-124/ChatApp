@@ -15,7 +15,8 @@ public class WebConfiguration{
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173")
+                // .allowedOrigins("http://localhost:5173")
+                .allowedOrigins("https://chatapp-sbxq.onrender.com/")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
