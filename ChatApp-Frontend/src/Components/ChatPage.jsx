@@ -8,12 +8,13 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { getMessages } from "../Service/ApiService";
 import moment from "moment"; // ✅ Import moment
+import { BaseURL } from "../Service/URLService";
 
 const ChatPage = () => {
   const [stompClient, setStompClient] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const baseURL = "http://localhost:8080";
+  const baseURL = BaseURL;
   const { roomId, currentUser, connected, setRoomId, setCurrentUser, setConnected } = useChatContext();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
