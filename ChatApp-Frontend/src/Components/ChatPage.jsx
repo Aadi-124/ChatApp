@@ -103,6 +103,17 @@ const ChatPage = () => {
     }
   };
 
+const getColorFromName = (name) => {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  // Convert hash to valid HSL color
+  const hue = hash % 360;
+  return `hsl(${hue}, 70%, 50%)`; // HSL gives bright, varied colors
+};
+
+
   return (
     <div className="chat-container">
       <div className="chat-header">
@@ -117,6 +128,9 @@ const ChatPage = () => {
             key={index}
             className={`message-bubble ${msg.sender === currentUser ? "sent" : "received"}`}
           >
+            {msg.sender === currentUser ?<></> : <div style={{color:"#29e229",fontWeight:"bolder"}}>{msg.sender}</div>}
+             
+            
             <div className="message-content">{msg.content}</div>
             <div className="message-time">
               {moment(msg.time).calendar(null, {
