@@ -1,8 +1,8 @@
 import axios from "axios";
+import { BaseURL } from "./URLService";
 
 const customAxios = axios.create({
-    baseURL:"https://chatapp-backend-dkeb.onrender.com",
-    // baseURL:"http://localhost:8080",
+    baseURL:BaseURL,
     headers: {
         'Content-Type': 'application/json',
       },

@@ -1,12 +1,18 @@
 package com.chatapp.ChatApp.Configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.chatapp.ChatApp.Constants.AppConstants;
+
 @Configuration
 public class WebConfiguration{
+
+    @Autowired
+    AppConstants constants;
 
     @Bean
     public WebMvcConfigurer corsConfigurer(){
@@ -16,7 +22,7 @@ public class WebConfiguration{
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**")
                 // .allowedOrigins("http://localhost:5173")
-                .allowedOrigins("https://chatapp-sbxq.onrender.com/")
+                .allowedOrigins(constants.FrontEndBaseURL)
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
