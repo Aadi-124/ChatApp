@@ -23,8 +23,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer Id;
     public String content;
-    public String roomId;
-    public String sender;
+    public String receiverId;
+    public String senderId;
+    private String groupId;
     public LocalDateTime time;
     
 }

@@ -19,15 +19,24 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     // Here We need to implement two methods
     public void configureMessageBroker(MessageBrokerRegistry registry){
-        registry.enableSimpleBroker("/topic"); // at this route the messages are broadcasted
-        registry.setApplicationDestinationPrefixes("/app"); // at these routes messages are sent.
+
+        System.out.println("configureMessageBroker Started!");
+        registry.enableSimpleBroker("/user", "/topic");
+        registry.setUserDestinationPrefix("/user");
+        registry.setApplicationDestinationPrefixes("/app");
+
+        System.out.println("configureMesageBorker finished!");
+
     }
 
 
     public void registerStompEndpoints(StompEndpointRegistry registry){
+
+        System.out.println("registerStompEndpoint Started!");
         registry.addEndpoint("/chat")
                 .setAllowedOriginPatterns(constants.FrontEndBaseURL)
                 .withSockJS();
+        System.out.println("RegisterStompEndpoint finished!");
     }
 
 }

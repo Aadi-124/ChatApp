@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 
 @RestController
 @RequestMapping("/room")
@@ -19,7 +21,7 @@ public class RoomController {
 
     @PostMapping("/createRoom")
     public ResponseEntity<?> createRoom(@RequestBody Room room){
-        System.out.println("Request Accessed!");
+//        System.out.println("Request Accessed!");
         if(repository.findByRoomId(room.getRoomId()).isPresent()){
             return ResponseEntity.badRequest().body("Room Already Exists!");
         } else {
