@@ -82,7 +82,7 @@ const Contacts = ({ onSelectChat }) => {
               onChange={(e) => setSearchTerm(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setIsSearchFocused(false)}
-              className={`flex-grow px-4 py-2 rounded-md max-[399px]:w-5 focus:outline-none border transition-all ${
+              className={`flex-grow px-4 py-2 rounded-md max-[450px]:w-5 focus:outline-none border transition-all ${
                 darkMode
                   ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
                   : 'bg-gray-100 text-gray-800 border-gray-300 placeholder-gray-500'
