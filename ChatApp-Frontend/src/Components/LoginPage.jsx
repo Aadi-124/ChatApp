@@ -7,6 +7,8 @@ import useChatContext from '../Service/ChatAppContext';
 import { Link } from 'react-router-dom';
 import { loginuser } from '../Service/ApiService';
 import { ChatAppLoader } from './ChatAppLoader';
+import { useEffect } from 'react';
+
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -40,6 +42,7 @@ const LoginPage = () => {
             console.log(response.data.userId);
             setIsLoggedIn(true);
             setIsAuthenticated(true);
+            navigate("/card")
         }).catch((error) => {
             setLoading(false);
             console.log("error = " + error);
@@ -48,6 +51,13 @@ const LoginPage = () => {
 
     };
 
+     useEffect(() => {
+    const t = setTimeout(() => {
+      setLoading(false);
+    }, 3000); 
+    return () => clearTimeout(t);
+    
+  }, []);
 
     return (
         <motion.div
@@ -134,13 +144,13 @@ const LoginPage = () => {
                     newestOnTop={false}
                 />
             </div>
-            {showLoader && (
+            {/* {showLoader && (
                 <ChatAppLoader
                     loadingText="Finding Best People for you!"
                     duration={5000}
                     redirectTo="/card"
                 />
-            )}
+            )} */}
         </motion.div>
 
 

@@ -297,7 +297,8 @@ import useChatContext from '../Service/ChatAppContext';
 import { loadUsers, saveBulkContacts } from '../Service/ApiService';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { ChatAppLoader } from './ChatAppLoader';
+import {ChatAppLoader }from './ChatAppLoader';
+import { useNavigate } from 'react-router-dom';
 
 const ContactCardPage = () => {
     const containerRef = useRef(null);
@@ -310,6 +311,7 @@ const ContactCardPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showLoader, setShowLoader] = useState(false);
+    const navigate = useNavigate();
 
     // Fetch all users except current user
     useEffect(() => {
@@ -349,7 +351,8 @@ const ContactCardPage = () => {
         const selectedUserIds = Object.keys(selectedCards);
         saveBulkContacts(jwtToken, userId, selectedUserIds).then((response) => {
             toast.success(response.data);
-            setShowLoader(true);
+            navigate("/contacts");
+
         }).catch((error) => {
             console.log(error);
             toast.error("Failed to save contacts.");
@@ -525,14 +528,6 @@ const ContactCardPage = () => {
                 />
             </div>}
 
-            {showLoader && (
-                <ChatAppLoader
-                    loadingText="Preparing your Chat Environment!"
-                    duration={5000}
-                    redirectTo="/contacts"
-                    style={{ zIndex: 100 }}
-                />
-            )}
         </>
     );
 };

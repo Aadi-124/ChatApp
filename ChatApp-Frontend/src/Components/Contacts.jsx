@@ -50,7 +50,7 @@ const Contacts = ({ onSelectChat }) => {
   return (
     <aside className={`min-h-screen flex flex-col border-r ${bgClass}`}>
       <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
-        <div className={`w-full max-w-2xl h-[80vh] p-6 rounded-xl shadow-xl border flex flex-col transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}`}>
+        <div className={`w-full max-w-2xl h-lvh p-6 rounded-xl shadow-xl border-8 flex flex-col transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}`}>
 
           {/* Header Row with Search and Menu */}
           <div className="flex items-center gap-4 mb-4 flex-shrink-0 relative">

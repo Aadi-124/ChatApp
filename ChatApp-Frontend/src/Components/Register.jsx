@@ -114,13 +114,6 @@ const Register = () => {
             exit={{ opacity: 0, x: 50 }}
             transition={{ duration: 0.5 }}
         >
-            {showLoader && (
-                <ChatAppLoader
-                    loadingText="Redirecting to Login..."
-                    duration={4000}
-                    redirectTo="/login"
-                />
-            )}
             <div className={`min-h-screen pb-20 flex items-center justify-center transition-colors duration-300 pt-24 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
