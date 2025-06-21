@@ -12,11 +12,16 @@ import Contacts from "./Components/Contacts";
 import { ChatAppLoader } from "./Components/ChatAppLoader";
 import ContactCard from "./Components/ContactCard";
 import ContactCardPage from "./Components/ContactCArdPage";
+import BackArrowButton from "./Components/BackArrowButton";
 
 function App() {
+
   return (
       <Router>
-          <Navbar/>
+
+        <BackArrowButton/>
+          {/* <Navbar/> */}
+          
         <Routes>
           <Route  path="/contacts" element={<Contacts/>} />
           <Route  path="/login" element={<LoginPage/>} />

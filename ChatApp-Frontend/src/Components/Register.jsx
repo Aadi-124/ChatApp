@@ -89,14 +89,13 @@ const Register = () => {
     };
 
     const onSubmit = async (data) => {
-        setIsSubmitting(true); // Start loading
-
+        setIsSubmitting(true); 
         try {
             const formData = {
                 ...data,
-                ...(profilePictureUrl && { profilePictureUrl })
+                ...(profilePictureUrl && { profilePictureUrl }),
+                role:data.role?'admin':'normal'
             };
-
             await registeruser(formData);
             toast.success("Registration Successfull!");
             setShowLoader(true);
@@ -122,7 +121,7 @@ const Register = () => {
                     redirectTo="/login"
                 />
             )}
-            <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 pt-24 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+            <div className={`min-h-screen pb-20 flex items-center justify-center transition-colors duration-300 pt-24 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className={`w-full max-w-lg p-6 rounded-xl shadow-xl border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}`}
@@ -138,16 +137,7 @@ const Register = () => {
                             onClick={triggerFileInput}
                         >
                             {isUploading ? (
-                                <div className="flex flex-col items-center">
-                                    <svg className="animate-spin h-8 w-8 text-blue-500"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10"
-                                            stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </div>
+                                <div className="animate-spin text-blue-500 text-2xl">⏳</div>
                             ) : profilePictureUrlPreview ? (
                                 <img
                                     src={profilePictureUrlPreview}
@@ -194,6 +184,32 @@ const Register = () => {
                             )}
                         </button>
                     </div>
+
+                        {/* <div className="flex justify-center mb-6">
+                        <div
+                            className={`w-24 h-24 rounded-full border-2 ${darkMode ? 'border-gray-600' : 'border-gray-300'} cursor-pointer overflow-hidden flex items-center justify-center ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            onClick={triggerFileInput}
+                        >
+                            {isUploading ? (
+                                <div className="animate-spin text-blue-500 text-2xl">⏳</div>
+                            ) : profilePictureUrlPreview ? (
+                                <img src={profilePictureUrlPreview} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <div className={`text-4xl ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                    <i className="fas fa-user"></i>
+                                </div>
+                            )}
+                        </div>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleProfilePictureChange}
+                            accept="image/*"
+                            className="hidden"
+                            disabled={isUploading || isSubmitting}
+                        />
+                    </div> */}
+
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* First Name */}
@@ -452,5 +468,4 @@ const Register = () => {
 };
 
 export default Register;
-
 

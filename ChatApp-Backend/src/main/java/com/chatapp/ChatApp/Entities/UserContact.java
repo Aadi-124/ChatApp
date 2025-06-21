@@ -26,10 +26,8 @@ public class UserContact {
     @ManyToOne
     @JoinColumn(name = "contact_id", nullable = false)
     private User contact; // The person being saved as a contact
-
     private Boolean isBlocked = false;
     private Boolean isFavorite = false;
-
     private LocalDateTime createdAt;
 
 }

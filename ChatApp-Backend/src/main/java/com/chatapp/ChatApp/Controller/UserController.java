@@ -48,9 +48,11 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody User user){
         String token = userService.verify(user);
         if(token != "INVALID_USER"){
+            String userId = userService.getUserId(user.getUserName());
             Map<String,String> response = new HashMap<String,String>();
             response.put("token",token);
-            return ResponseEntity.status(200).body(token);
+            response.put("userId",userId);
+            return ResponseEntity.status(200).body(response);
         } else {
             return ResponseEntity.status(401).body(token);
         }

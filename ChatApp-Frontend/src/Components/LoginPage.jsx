@@ -13,7 +13,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
-    const { darkMode, setDarkMode, jwtToken, setJwtToken, isAuthenticated, setIsAuthenticated, isLoggedIn, setIsLoggedIn } = useChatContext();
+    const { darkMode, setDarkMode, jwtToken, setJwtToken, isAuthenticated, setIsAuthenticated, isLoggedIn, setIsLoggedIn, setUserId, userId } = useChatContext();
     const navigate = useNavigate();
 
     const handleLogin = () => {
@@ -30,12 +30,14 @@ const LoginPage = () => {
 
         loginuser(credentials).then((response) => {
             setLoading(false);
-            console.log("response.data = " + response.data);
+            console.log("response.data = " + response.data.token);
             toast.success("Logged in Successfully!");
             setShowLoader(true);
 
             //userstate:-
-            setJwtToken(response.data);
+            setJwtToken(response.data.token);
+            setUserId(response.data.userId);
+            console.log(response.data.userId);
             setIsLoggedIn(true);
             setIsAuthenticated(true);
         }).catch((error) => {
@@ -134,7 +136,7 @@ const LoginPage = () => {
             </div>
             {showLoader && (
                 <ChatAppLoader
-                    loadingText="Preparing your Chat Environment"
+                    loadingText="Finding Best People for you!"
                     duration={5000}
                     redirectTo="/card"
                 />

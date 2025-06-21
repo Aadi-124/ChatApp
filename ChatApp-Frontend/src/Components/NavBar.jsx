@@ -20,7 +20,7 @@ const Navbar = (props) => {
   }, []);
 
   return (
-    <nav className={`sticky top-0 w-full px-6 py-4 shadow-md z-50  shadow-green-500 ${
+    <nav className={`absolute top-0 w-full px-6 py-4 shadow-md z-50  shadow-green-500 ${
       darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
     }`}>
       <div className="flex justify-between items-center">

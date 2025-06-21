@@ -44,4 +44,25 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime lastActiveAt;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", userName='" + userName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", DOB=" + DOB +
+                ", profilePictureUrl='" + profilePictureUrl + '\'' +
+                ", statusMessage='" + statusMessage + '\'' +
+                ", role='" + role + '\'' +
+                ", password='[PROTECTED]'" + // hide actual password
+                ", createdAt=" + createdAt +
+                ", lastActiveAt=" + lastActiveAt +
+                '}';
+    }
+
+
 }

@@ -1,6 +1,9 @@
 package com.chatapp.ChatApp.Service;
 
+import com.chatapp.ChatApp.DTO.UserContactDTO;
 import com.chatapp.ChatApp.Entities.User;
+import com.chatapp.ChatApp.Entities.UserContact;
+import com.chatapp.ChatApp.Repository.UserContactRepository;
 import com.chatapp.ChatApp.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +12,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
 
     @Autowired
     public UserRepository repo;
+
+    @Autowired
+    public UserContactRepository userContactRepository;
 
     @Autowired
     AuthenticationManager authManager;
@@ -48,13 +59,40 @@ public class UserService {
         }
     }
 
+    public String getUserId(String username){
+        return repo.findByUserName(username).get().getId().toString();
+    }
+
+
     public String verify(User user){
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword()));
-
         if(authentication.isAuthenticated()){
             return jwtService.generateToken(user.getUserName());
         }
         return "INVALID_USER";
+    }
+
+
+    public List<UserContactDTO> getUserContacts(UUID ownerId){
+        List<UserContact> userContacts = userContactRepository.findByOwnerId(ownerId);
+
+        return userContacts.stream().map(contact -> {
+            User user = contact.getContact();
+            UserContactDTO userContactDTO = new UserContactDTO();
+            userContactDTO.setId(user.getId());
+            userContactDTO.setUserName(user.getUserName());
+            userContactDTO.setProfilePictureUrl(user.getProfilePictureUrl());
+            userContactDTO.setBlocked(contact.getIsBlocked());
+            userContactDTO.setFavourite(contact.getIsFavorite());
+            return userContactDTO;
+//            return new UserContactDTO(
+//                    user.getId(),
+//                    user.getUserName(),
+//                    user.getProfilePictureUrl(),
+//                    contact.getIsBlocked(),
+//                    contact.getIsFavorite()
+//            );
+        }).collect(Collectors.toList());
     }
 
 }

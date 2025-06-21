@@ -29,6 +29,27 @@ export const loadUsers = (jwtToken)=>{
     })
 }
 
+export const saveBulkContacts = (jwtToken,userId,contactList) =>{
+    console.log(userId)
+    return customAxios.post(`/private/saveBulkContacts?ownerId=${userId}`,contactList,{
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+jwtToken
+        }
+    })
+}
+
+
+export const retrieveUserContact = (jwtToken,userId) =>{
+    return customAxios.get(`/private/getContacts?ownerId=${userId}`,{
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+jwtToken
+        }
+    })
+}
+
+
 
 
 

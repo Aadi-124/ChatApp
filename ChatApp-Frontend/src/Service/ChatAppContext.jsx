@@ -65,7 +65,7 @@ export const ChatAppContext = ({ children }) => {
     return JSON.parse(localStorage.getItem("darkMode")) || false;
   });
 
-  const [userId, setUserId] = useState(() => {
+  const [userId, setUserIdInState] = useState(() => {
     return JSON.parse(localStorage.getItem("userId")) || false;
   });
 
@@ -94,6 +94,15 @@ export const ChatAppContext = ({ children }) => {
       localStorage.removeItem("jwt");
     }
     setJwtTokenState(token);
+  };
+
+  const setUserId = (userId) => {
+    if (userId) {
+      localStorage.setItem("userId", JSON.stringify(userId));
+    } else {
+      localStorage.removeItem("userId");
+    }
+    setUserIdInState(userId);
   };
 
   const setIsAuthenticated = (val) => {

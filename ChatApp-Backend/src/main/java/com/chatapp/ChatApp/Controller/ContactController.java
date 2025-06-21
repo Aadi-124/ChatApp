@@ -1,11 +1,12 @@
 package com.chatapp.ChatApp.Controller;
 
 
+import com.chatapp.ChatApp.DTO.UserContactDTO;
 import com.chatapp.ChatApp.Entities.User;
 import com.chatapp.ChatApp.Entities.UserContact;
 import com.chatapp.ChatApp.Repository.UserContactRepository;
-import com.chatapp.ChatApp.Repository.UserProjection;
 import com.chatapp.ChatApp.Repository.UserRepository;
+import com.chatapp.ChatApp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,12 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ContactController {
 
     @Autowired
     public UserRepository userRepo;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     public UserContactRepository userContactRepository;
@@ -32,17 +37,21 @@ public class ContactController {
     }
 
     @PostMapping("/private/saveBulkContacts")
-    public ResponseEntity<?> saveContacts(@RequestBody List<Long> contactIds, @RequestParam("ownerId") Long ownerId) {
+    public ResponseEntity<?> saveBulkContacts(@RequestBody List<String> contactIds, @RequestParam("ownerId") String ownerId) {
 
-        User owner = userRepo.findById(ownerId).orElse(null);
+        UUID ownerUUID = UUID.fromString(ownerId);
+
+        System.out.println("ContactList = "+contactIds);
+        System.out.println("ownerId = "+ownerId);
+        User owner = userRepo.findById(ownerUUID).orElse(null);
         if (owner == null) {
             return ResponseEntity.badRequest().body("Owner not found");
         }
 
         List<UserContact> toSave = new ArrayList<>();
 
-        for (Long contactId : contactIds) {
-            User contact = userRepo.findById(contactId).orElse(null);
+        for (String contactId : contactIds) {
+            User contact = userRepo.findById(UUID.fromString(contactId)).orElse(null);
             if (contact == null || contact.getId().equals(owner.getId())) {
                 continue;
             }
@@ -58,7 +67,15 @@ public class ContactController {
         }
 
         userContactRepository.saveAll(toSave);
-        return ResponseEntity.ok("Saved " + toSave.size() + " contacts");
+        return ResponseEntity.ok(toSave.size() + " Contacts Saved Successfully!");
+    }
+
+
+
+    @GetMapping("/private/getContacts")
+    public ResponseEntity<?> retrieveUserContacts(@RequestParam String ownerId){
+        List<UserContactDTO> userContactDTOS = userService.getUserContacts(UUID.fromString(ownerId));
+        return ResponseEntity.ok().body(userContactDTOS);
     }
 
 
