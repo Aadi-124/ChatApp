@@ -11,7 +11,8 @@ import Navbar from "./Components/NavBar";
 import Contacts from "./Components/Contacts";
 import { ChatAppLoader } from "./Components/ChatAppLoader";
 import ContactCard from "./Components/ContactCard";
-import ContactCardPage from "./Components/ContactCArdPage";
+// import ContactCardPage from "./Components/ContactCArdPage";
+import ContactCardPage from "./Components/ContactCardPage";
 import BackArrowButton from "./Components/BackArrowButton";
 
 function App() {
